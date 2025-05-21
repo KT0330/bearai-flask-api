@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # 一定要有
 from dotenv import load_dotenv
 import openai
 
@@ -13,6 +14,7 @@ CHARACTER_STYLE = {
 }
 
 app = Flask(__name__)
+CORS(app)  # <<<<<< 一定要加這行，放在 app = Flask(__name__) 下面！
 
 
 @app.route("/", methods=["GET"])
@@ -46,7 +48,6 @@ def ask():
     return jsonify({"answer": answer})
 
 
-# 這一塊要在最外面，不要縮排進去！
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
